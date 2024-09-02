@@ -3,7 +3,7 @@
 const Home = () => {
   return (
     <main>
-      <div>oi</div>
+      <div>Start</div>
     </main>
   );
 };
