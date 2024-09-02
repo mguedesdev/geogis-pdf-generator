@@ -7,9 +7,7 @@ export const Container = styled.header`
   margin-bottom: auto;
   justify-content: space-between;
   align-items: center;
-  padding: 1.5rem 2rem;
-  background-color: var(--white);
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 1rem 2rem;
   background-color: ${({ theme }) => theme.colors.black};
 `;
 
@@ -18,10 +16,11 @@ export const LogoContainer = styled.div`
   align-items: center;
 `;
 
-export const ImageLogo = styled.img`
+export const ImageLogo = styled(Image)`
   aspect-ratio: 16/9;
   width: 120px;
   height: 40px;
+  object-fit: cover;
 `;
 
 export const ButtonsContainer = styled.div`

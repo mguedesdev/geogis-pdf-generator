@@ -36,8 +36,8 @@ export const GlobalStyle = createGlobalStyle`
   }
 
   * {
-    scrollbar-width: thin;
-    scroll-behavior: smooth;
+      scrollbar-width: thin;
+      scroll-behavior: smooth;
   }
 
   input::-webkit-outer-spin-button,

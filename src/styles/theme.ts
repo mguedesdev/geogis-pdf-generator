@@ -16,3 +16,5 @@ export const theme = {
     warningLight: '#FFFACB',
   },
 } as const;
+
+export type ThemeType = typeof theme;

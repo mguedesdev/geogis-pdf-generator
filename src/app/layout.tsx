@@ -1,8 +1,11 @@
 import type { Metadata } from 'next';
 import Providers from '@/components/Providers/Providers';
-import { Inter } from 'next/font/google';
+import { Ubuntu } from 'next/font/google';
 
-const inter = Inter({ subsets: ['latin'] });
+const ubuntu = Ubuntu({
+  subsets: ['latin'],
+  weight: ['300', '400', '500', '700'],
+});
 
 export const metadata: Metadata = {
   title: 'Geogis Pdf Generator',
@@ -16,7 +19,7 @@ const RootLayout = ({
 }>) => {
   return (
     <html lang="pt">
-      <body className={inter.className}>
+      <body className={ubuntu.className}>
         <Providers>{children}</Providers>
       </body>
     </html>
