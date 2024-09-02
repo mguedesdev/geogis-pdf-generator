@@ -1,6 +1,33 @@
 import { createGlobalStyle } from 'styled-components';
 
 export const GlobalStyle = createGlobalStyle`
+  @font-face {
+    font-family: 'Ubuntu';
+    font-style: normal;
+    font-weight: 300;
+    src: url('/fonts/Ubuntu-Light.ttf') format('truetype');
+  }
+
+  @font-face {
+    font-family: 'Ubuntu';
+    font-style: normal;
+    font-weight: 400;
+    src: url('/fonts/Ubuntu-Regular.ttf') format('truetype');
+  }
+
+  @font-face {
+    font-family: 'Ubuntu';
+    font-style: normal;
+    font-weight: 500;
+    src: url('/fonts/Ubuntu-Medium.ttf') format('truetype');
+  }
+
+  @font-face {
+    font-family: 'Ubuntu';
+    font-style: normal;
+    font-weight: 700;
+    src: url('/fonts/Ubuntu-Bold.ttf') format('truetype');
+  }
 
   *, *::after, *::before {
     margin: 0;
@@ -36,6 +63,7 @@ export const GlobalStyle = createGlobalStyle`
 
   body {
     text-rendering: optimizeLegibility;
+    font-family: 'Ubuntu', sans-serif;
   }
 
   button {

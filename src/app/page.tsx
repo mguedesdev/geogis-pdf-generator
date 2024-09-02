@@ -1,10 +1,13 @@
 'use client';
 
+import Header from '@/components/Header/Header';
+import { Container } from './styles';
+
 const Home = () => {
   return (
-    <main>
-      <div>Start</div>
-    </main>
+    <Container>
+      <Header />
+    </Container>
   );
 };
 
