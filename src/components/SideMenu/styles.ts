@@ -4,10 +4,9 @@ export const Container = styled.div`
   display: flex;
   flex-direction: column;
   height: 100%;
-  margin-right: auto;
   padding: 1rem;
   padding-right: 1rem;
-  border-right: 2px solid ${({ theme }) => theme.colors.placeholder};
+  border-right: 2px solid ${({ theme }) => theme.colors.borderGray};
 `;
 
 export const Title = styled.h1`

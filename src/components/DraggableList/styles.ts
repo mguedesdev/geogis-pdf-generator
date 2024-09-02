@@ -5,4 +5,5 @@ export const ListContainer = styled.div`
   overflow-y: auto;
   overflow-x: hidden;
   padding-right: 0.3rem;
+  width: 100%;
 `;

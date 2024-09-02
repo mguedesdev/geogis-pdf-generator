@@ -11,7 +11,7 @@ export const ItemContainer = styled.div`
   background-color: white;
   transition: box-shadow 0.2s;
   box-shadow: 0 1px 0px rgba(0, 0, 0, 0.1);
-  max-width: 15.625rem;
+  width: 100%;
 
   &:hover {
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
@@ -20,7 +20,7 @@ export const ItemContainer = styled.div`
 
 export const TitleItem = styled.div`
   flex: 1;
-  padding: 0 1rem;
+  padding: 0 0.5rem;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
