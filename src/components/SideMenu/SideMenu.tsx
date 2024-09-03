@@ -6,13 +6,17 @@ import { Button } from '../Button/Button';
 
 const SideMenu = () => {
   const fileInputRef = useRef<HTMLInputElement | null>(null);
-  const { items, addItem } = useItems();
+  const { addItem, nextParagraphNumber } = useItems();
+
+  const generateRandomId = () => {
+    return Math.random().toString(36).substr(2, 9);
+  };
 
   const addParagraph = () => {
     const newParagraph = {
-      id: `item-${items.length + 1}`,
+      id: generateRandomId(),
       type: 'paragraph',
-      title: 'Novo Parágrafo',
+      title: `Parágrafo ${nextParagraphNumber()}`,
     };
     addItem(newParagraph);
   };
@@ -21,12 +25,16 @@ const SideMenu = () => {
     if (event.target.files && event.target.files[0]) {
       const fileName = event.target.files[0].name;
       const newImage = {
-        id: `item-${items.length + 1}`,
+        id: generateRandomId(),
         type: 'image',
         title: fileName,
         content: URL.createObjectURL(event.target.files[0]),
       };
       addItem(newImage);
+
+      if (fileInputRef.current) {
+        fileInputRef.current.value = '';
+      }
     }
   };
 

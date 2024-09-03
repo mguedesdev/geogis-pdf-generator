@@ -11,14 +11,12 @@ import { ItemsProvider } from '@/services/ItemsContext';
 
 const Providers = ({ children }: PropsWithChildren) => {
   return (
-    <ItemsProvider>
-      <StyledComponentsRegistry>
-        <ThemeProvider theme={theme}>
-          <GlobalStyle />
-          {children}
-        </ThemeProvider>
-      </StyledComponentsRegistry>
-    </ItemsProvider>
+    <StyledComponentsRegistry>
+      <ThemeProvider theme={theme}>
+        <GlobalStyle />
+        <ItemsProvider>{children}</ItemsProvider>
+      </ThemeProvider>
+    </StyledComponentsRegistry>
   );
 };
 

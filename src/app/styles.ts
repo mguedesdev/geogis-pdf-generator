@@ -34,6 +34,17 @@ export const EditorContainer = styled.div`
   height: 100%;
 `;
 
+export const EmptyEditor = styled.span`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+  max-width: 800px;
+  font-size: 1.5rem;
+  color: ${({ theme }) => theme.colors.primary};
+`;
+
 export const TitleInput = styled.input`
   font-size: 1.25rem;
   color: ${({ theme }) => theme.colors.textLight};

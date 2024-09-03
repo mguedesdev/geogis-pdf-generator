@@ -7,6 +7,17 @@ export const Container = styled.div`
   padding: 1rem;
   padding-right: 1rem;
   border-right: 2px solid ${({ theme }) => theme.colors.borderGray};
+  width: 300px;
+  min-width: 300px;
+
+  @media (max-width: 1450px) {
+    width: 250px;
+    min-width: 250px;
+  }
+
+  @media (max-width: 768px) {
+    display: none;
+  }
 `;
 
 export const Title = styled.h1`

@@ -7,6 +7,7 @@ import {
   ActivePagePDF,
   Container,
   EditorContainer,
+  EmptyEditor,
   Main,
   PagePDF,
   PreviewContainer,
@@ -35,16 +36,20 @@ const Home = () => {
       <Header />
       <Main>
         <SideMenu />
-        <EditorContainer>
-          <TitleInput
-            value={selectedItem?.title || ''}
-            onChange={handleTitleChange}
-          />
-          <TextArea
-            value={selectedItem?.content || ''}
-            onChange={handleContentChange}
-          />
-        </EditorContainer>
+        {selectedItem ? (
+          <EditorContainer>
+            <TitleInput
+              value={selectedItem?.title || ''}
+              onChange={handleTitleChange}
+            />
+            <TextArea
+              value={selectedItem?.content || ''}
+              onChange={handleContentChange}
+            />
+          </EditorContainer>
+        ) : (
+          <EmptyEditor>Adicione um paragrafo para editar</EmptyEditor>
+        )}
         <PreviewContainer>
           <ActivePagePDF />
           <PreviewPagesPDF>

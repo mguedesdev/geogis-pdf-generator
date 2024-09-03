@@ -19,6 +19,7 @@ interface ItemsContextData {
     updatedContent?: string,
     updatedTitle?: string,
   ) => void;
+  nextParagraphNumber: () => number;
 }
 
 const ItemsContext = createContext<ItemsContextData | undefined>(undefined);
@@ -45,6 +46,9 @@ export const ItemsProvider: React.FC<{ children: React.ReactNode }> = ({
         setSelectedItem(updatedSelectedItem);
       }
     }
+    if (items.length === 0) {
+      setSelectedItem(null);
+    }
   }, [items]);
 
   const reorderItems = (newItems: Item[]) => {
@@ -52,7 +56,10 @@ export const ItemsProvider: React.FC<{ children: React.ReactNode }> = ({
   };
 
   const addItem = (item: Item) => {
-    setItems([...items, item]);
+    setItems(prevItems => [...prevItems, item]);
+    if (item.type === 'paragraph') {
+      setSelectedItem(item);
+    }
   };
 
   const selectItem = (id: string) => {
@@ -61,13 +68,14 @@ export const ItemsProvider: React.FC<{ children: React.ReactNode }> = ({
   };
 
   const deleteItem = (id: string) => {
-    if (items.length === 1) {
-      return alert('Não é possível deletar o último item');
-    }
     setItems(items.filter(item => item.id !== id));
     if (selectedItem?.id === id) {
       setSelectedItem(null);
     }
+  };
+  const nextParagraphNumber = () => {
+    const paragraphs = items.filter(item => item.type === 'paragraph');
+    return paragraphs.length + 1;
   };
 
   const updateContent = (
@@ -98,6 +106,7 @@ export const ItemsProvider: React.FC<{ children: React.ReactNode }> = ({
       deleteItem,
       reorderItems,
       updateContent,
+      nextParagraphNumber,
     }),
     [items, selectedItem],
   );
