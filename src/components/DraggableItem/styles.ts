@@ -11,7 +11,10 @@ export const ItemContainer = styled.div`
   background-color: white;
   transition: box-shadow 0.2s;
   box-shadow: 0 1px 0px rgba(0, 0, 0, 0.1);
-  width: 100%;
+  width: 14.375rem;
+  max-width: 14.375rem;
+
+  cursor: pointer;
 
   &:hover {
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
@@ -24,6 +27,12 @@ export const TitleItem = styled.div`
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+`;
+
+export const ButtonsContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+  gap: 0.5rem;
 `;
 
 export const IconButton = styled.button`

@@ -1,46 +1,82 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
-import { MdDragHandle } from 'react-icons/md';
+import { MdDragHandle, MdEdit } from 'react-icons/md';
 import { FaTrash } from 'react-icons/fa';
-import { ItemContainer, IconButton, DragHandle, TitleItem } from './styles';
+import Items from '@/@types/Items';
+import { useItems } from '@/services/ItemsContext';
+import {
+  ItemContainer,
+  IconButton,
+  DragHandle,
+  TitleItem,
+  ButtonsContainer,
+} from './styles';
 
 interface DraggableItemProps {
-  item: {
-    id: number;
-    content: string;
-  };
-  onEditItem: (id: number) => void;
-  onDeleteItem: (id: number) => void;
+  item: Items;
 }
 
-const DraggableItem: React.FC<DraggableItemProps> = ({
-  item,
-  onDeleteItem,
-  onEditItem,
-}) => {
+const DraggableItem: React.FC<DraggableItemProps> = ({ item }) => {
+  const { selectItem, deleteItem, updateContent } = useItems();
   const { attributes, listeners, setNodeRef, transform, transition } =
     useSortable({ id: item.id });
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
 
   const style = {
     transform: CSS.Transform.toString(transform),
     transition,
+    cursor: item.type === 'paragraph' ? 'pointer' : 'default',
+  };
+
+  const handleImageEdit = () => {
+    if (fileInputRef.current) {
+      fileInputRef.current.click();
+    }
+  };
+
+  const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (event.target.files && event.target.files[0]) {
+      const fileUrl = URL.createObjectURL(event.target.files[0]);
+      const fileName = event.target.files[0].name;
+      updateContent(item.id, fileUrl, fileName);
+    }
   };
 
   return (
     <ItemContainer
       ref={setNodeRef}
-      style={style}
       {...attributes}
-      onClick={() => onEditItem(item.id)}
+      onClick={() => {
+        if (item.type === 'paragraph') {
+          selectItem(item.id);
+        }
+      }}
+      style={style}
     >
       <DragHandle {...listeners}>
         <MdDragHandle size={20} />
       </DragHandle>
-      <TitleItem>{item.content}</TitleItem>
-      <IconButton onClick={() => onDeleteItem(item.id)}>
-        <FaTrash size={16} />
-      </IconButton>
+      <TitleItem>{item.title}</TitleItem>
+      <ButtonsContainer>
+        {item.type === 'image' && (
+          <>
+            <IconButton onClick={handleImageEdit}>
+              <MdEdit size={16} />
+            </IconButton>
+            <input
+              type="file"
+              ref={fileInputRef}
+              style={{ display: 'none' }}
+              accept="image/*"
+              onChange={handleImageChange}
+            />
+          </>
+        )}
+        <IconButton onClick={() => deleteItem(item.id)}>
+          <FaTrash size={16} />
+        </IconButton>
+      </ButtonsContainer>
     </ItemContainer>
   );
 };

@@ -1,27 +1,39 @@
-import React, { useState } from 'react';
+import React, { useRef } from 'react';
+import { useItems } from '@/services/ItemsContext';
 import { ButtonsContainer, Container, Text, Title } from './styles';
 import DraggableList from '../DraggableList/DraggableList';
 import { Button } from '../Button/Button';
 
 const SideMenu = () => {
-  const [items, setItems] = useState([
-    {
-      id: 1,
-      content: 'Parágrafo 1',
-    },
-  ]);
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
+  const { items, addItem } = useItems();
 
-  const handleDragEnd = (newItems: { id: number; content: string }[]) => {
-    setItems(newItems);
-    console.log('New items:', newItems);
+  const addParagraph = () => {
+    const newParagraph = {
+      id: `item-${items.length + 1}`,
+      type: 'paragraph',
+      title: 'Novo Parágrafo',
+    };
+    addItem(newParagraph);
   };
 
-  const handleEditItem = (id: number) => {
-    console.log('Edit item with id:', id);
+  const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (event.target.files && event.target.files[0]) {
+      const fileName = event.target.files[0].name;
+      const newImage = {
+        id: `item-${items.length + 1}`,
+        type: 'image',
+        title: fileName,
+        content: URL.createObjectURL(event.target.files[0]),
+      };
+      addItem(newImage);
+    }
   };
 
-  const handleDeleteItem = (id: number) => {
-    setItems(items.filter(item => item.id !== id));
+  const addImage = () => {
+    if (fileInputRef.current) {
+      fileInputRef.current.click();
+    }
   };
 
   return (
@@ -31,26 +43,22 @@ const SideMenu = () => {
         {`Clique em uma seção abaixo para
       editar o conteúdo`}
       </Text>
-      <DraggableList
-        items={items}
-        onDragEnd={handleDragEnd}
-        onEditItem={handleEditItem}
-        onDeleteItem={handleDeleteItem}
-      />
+      <DraggableList />
 
       <ButtonsContainer>
-        <Button
-          className="outline"
-          onClick={() => console.log('Add new section')}
-        >
+        <Button className="outline" onClick={addParagraph}>
           Adicionar Parágrafo
         </Button>
-        <Button
-          className="outline"
-          onClick={() => console.log('Add new section')}
-        >
+        <Button className="outline" onClick={addImage}>
           Adicionar Imagem
         </Button>
+        <input
+          type="file"
+          ref={fileInputRef}
+          style={{ display: 'none' }}
+          accept="image/*"
+          onChange={handleImageUpload}
+        />
       </ButtonsContainer>
     </Container>
   );

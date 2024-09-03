@@ -7,15 +7,18 @@ import { GlobalStyle } from '@/styles/global';
 import { theme } from '@/styles/theme';
 
 import StyledComponentsRegistry from '@/lib/registry';
+import { ItemsProvider } from '@/services/ItemsContext';
 
 const Providers = ({ children }: PropsWithChildren) => {
   return (
-    <StyledComponentsRegistry>
-      <ThemeProvider theme={theme}>
-        <GlobalStyle />
-        {children}
-      </ThemeProvider>
-    </StyledComponentsRegistry>
+    <ItemsProvider>
+      <StyledComponentsRegistry>
+        <ThemeProvider theme={theme}>
+          <GlobalStyle />
+          {children}
+        </ThemeProvider>
+      </StyledComponentsRegistry>
+    </ItemsProvider>
   );
 };
 

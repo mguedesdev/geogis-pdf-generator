@@ -6,22 +6,12 @@ import {
   verticalListSortingStrategy,
 } from '@dnd-kit/sortable';
 import { restrictToVerticalAxis } from '@dnd-kit/modifiers';
+import { useItems } from '@/services/ItemsContext';
 import DraggableItem from '../DraggableItem/DraggableItem';
 import { ListContainer } from './styles';
 
-interface DraggableListProps {
-  items: { id: number; content: string }[];
-  onDragEnd: (items: { id: number; content: string }[]) => void;
-  onEditItem: (id: number) => void;
-  onDeleteItem: (id: number) => void;
-}
-
-const DraggableList: React.FC<DraggableListProps> = ({
-  items,
-  onDragEnd,
-  onEditItem,
-  onDeleteItem,
-}) => {
+const DraggableList: React.FC = () => {
+  const { items, reorderItems } = useItems();
   const handleDragEnd = (event: any) => {
     const { active, over } = event;
 
@@ -30,7 +20,7 @@ const DraggableList: React.FC<DraggableListProps> = ({
       const newIndex = items.findIndex(item => item.id === over.id);
 
       const newItems = arrayMove(items, oldIndex, newIndex);
-      onDragEnd(newItems);
+      reorderItems(newItems);
     }
   };
 
@@ -43,12 +33,7 @@ const DraggableList: React.FC<DraggableListProps> = ({
       >
         <SortableContext items={items} strategy={verticalListSortingStrategy}>
           {items.map(item => (
-            <DraggableItem
-              key={item.id}
-              item={item}
-              onEditItem={onEditItem}
-              onDeleteItem={onDeleteItem}
-            />
+            <DraggableItem key={item.id} item={item} />
           ))}
         </SortableContext>
       </DndContext>
