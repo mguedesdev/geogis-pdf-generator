@@ -16,7 +16,7 @@ import {
 } from './styles';
 
 const Home = () => {
-  const { updateContent, selectedItem, items } = useItems();
+  const { updateContent, selectedItem } = useItems();
 
   const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (selectedItem) {

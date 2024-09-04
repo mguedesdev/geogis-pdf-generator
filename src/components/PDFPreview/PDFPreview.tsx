@@ -7,7 +7,8 @@ import {
   Text as PDFText,
   Image as PDFImage,
   PDFViewer,
-} from '@react-pdf/renderer';
+  pdf,
+} from '@react-pdf/renderer'; // Adicione 'pdf'
 import Items from '@/@types/Items';
 import styles from './styles';
 
@@ -19,7 +20,7 @@ const renderHeader = () => (
 );
 
 const PDFPreview: React.FC = () => {
-  const { items } = useItems();
+  const { items, setPdfBlob } = useItems();
   const [debouncedItems, setDebouncedItems] = useState<Items[]>(items);
 
   useEffect(() => {
@@ -91,8 +92,18 @@ const PDFPreview: React.FC = () => {
     return pages;
   };
 
+  useEffect(() => {
+    const generateBlob = async () => {
+      const pdfDocument = <Document>{generatePDFContent()}</Document>;
+      const blob = await pdf(pdfDocument).toBlob();
+      setPdfBlob(blob);
+    };
+
+    generateBlob();
+  }, [debouncedItems, setPdfBlob]);
+
   return (
-    <PDFViewer width="100%" height="100%" showToolbar>
+    <PDFViewer width="100%" height="100%" showToolbar={false}>
       <Document>{generatePDFContent()}</Document>
     </PDFViewer>
   );

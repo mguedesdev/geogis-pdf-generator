@@ -20,6 +20,8 @@ interface ItemsContextData {
     updatedTitle?: string,
   ) => void;
   nextParagraphNumber: () => number;
+  pdfBlob?: Blob | null;
+  setPdfBlob: (blob: Blob) => void;
 }
 
 const ItemsContext = createContext<ItemsContextData | undefined>(undefined);
@@ -36,6 +38,7 @@ export const ItemsProvider: React.FC<{ children: React.ReactNode }> = ({
     },
   ]);
   const [selectedItem, setSelectedItem] = useState<Item | null>(items[0]);
+  const [pdfBlob, setPdfBlob] = useState<Blob | null>(null);
 
   const blobToBase64 = (blob: Blob): Promise<string> => {
     return new Promise((resolve, reject) => {
@@ -122,6 +125,8 @@ export const ItemsProvider: React.FC<{ children: React.ReactNode }> = ({
       reorderItems,
       updateContent,
       nextParagraphNumber,
+      pdfBlob,
+      setPdfBlob,
     }),
     [items, selectedItem],
   );

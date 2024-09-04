@@ -1,4 +1,5 @@
 import { FaDownload, FaEye } from 'react-icons/fa';
+import { useItems } from '@/services/ItemsContext';
 import { Button } from '../Button/Button';
 import {
   ButtonsContainer,
@@ -8,6 +9,26 @@ import {
 } from './styles';
 
 const Header = () => {
+  const { pdfBlob } = useItems();
+
+  const handleDownload = () => {
+    if (pdfBlob) {
+      const url = URL.createObjectURL(pdfBlob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'document.pdf';
+      a.click();
+      URL.revokeObjectURL(url);
+    }
+  };
+
+  const handlePreview = () => {
+    if (pdfBlob) {
+      const url = URL.createObjectURL(pdfBlob);
+      window.open(url, '_blank');
+    }
+  };
+
   return (
     <Container>
       <LogoContainer>
@@ -19,11 +40,11 @@ const Header = () => {
         />
       </LogoContainer>
       <ButtonsContainer>
-        <Button>
-          Preview
+        <Button onClick={handlePreview}>
+          Visualizar
           <FaEye size={16} />
         </Button>
-        <Button>
+        <Button onClick={handleDownload}>
           Download
           <FaDownload size={16} />
         </Button>
