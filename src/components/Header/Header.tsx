@@ -1,6 +1,7 @@
 import { FaDownload, FaEye, FaPaperPlane } from 'react-icons/fa';
 import { uploadPDF } from '@/services/api'; // Importa o serviço de upload
 import { useItems } from '@/contexts/ItemsContext';
+import { handleErrorToast, handleSuccessToast } from '@/utils/toastUtils';
 import { Button } from '../Button/Button';
 import {
   ButtonsContainer,
@@ -36,9 +37,18 @@ const Header = () => {
 
     try {
       const result = await uploadPDF(pdfBlob);
-      alert(`PDF enviado com sucesso! Resultado: ${JSON.stringify(result)}`);
+
+      if (
+        typeof result === 'object' &&
+        result !== null &&
+        'message' in result
+      ) {
+        handleSuccessToast((result as { message: string }).message);
+      } else {
+        handleErrorToast('Resposta inesperada do servidor.');
+      }
     } catch (error) {
-      alert('Erro ao enviar o PDF.');
+      handleErrorToast('Erro ao enviar o PDF.');
     }
   };
 
@@ -62,7 +72,7 @@ const Header = () => {
           <FaDownload size={16} />
         </Button>
         <Button onClick={handleSend}>
-          Send PDF
+          Enviar PDF
           <FaPaperPlane size={16} />
         </Button>
       </ButtonsContainer>
