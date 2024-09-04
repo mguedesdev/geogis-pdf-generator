@@ -26,7 +26,8 @@ export const EditorContainer = styled.div`
   flex-direction: column;
   gap: 1rem;
   width: 100%;
-  max-width: 800px;
+  margin: 0 1rem;
+  flex: 1;
   padding: 1rem;
   border-radius: 0.5rem;
   background-color: ${({ theme }) => theme.colors.text};
@@ -39,8 +40,9 @@ export const EmptyEditor = styled.span`
   justify-content: center;
   align-items: center;
   height: 100%;
+  flex: 1;
+  margin: 0 1rem;
   width: 100%;
-  max-width: 800px;
   font-size: 1.5rem;
   color: ${({ theme }) => theme.colors.primary};
 `;
@@ -79,7 +81,7 @@ export const PreviewContainer = styled.div`
   gap: 1rem;
   width: 100%;
   max-width: 800px;
-  padding: 1rem;
+  padding: 1rem 0.5rem;
   border-radius: 0.5rem;
   border: 2px solid ${({ theme }) => theme.colors.borderGray};
   box-shadow: 0 0 1rem rgba(0, 0, 0, 0.1);
@@ -88,27 +90,6 @@ export const PreviewContainer = styled.div`
 
 export const ActivePagePDF = styled.div`
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0.5rem;
+  justify-content: center;
   height: 100%;
-`;
-
-export const PreviewPagesPDF = styled.div`
-  display: flex;
-  gap: 1rem;
-  padding: 1rem;
-  border-top: 1px solid ${({ theme }) => theme.colors.borderGray};
-  overflow-x: auto;
-  overflow-y: hidden;
-`;
-
-export const PagePDF = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-  padding: 1rem;
-  color: ${({ theme }) => theme.colors.text};
-  border: 1px solid ${({ theme }) => theme.colors.placeholder};
-  background-color: ${({ theme }) => theme.colors.white};
 `;

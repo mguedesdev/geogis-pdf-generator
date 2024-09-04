@@ -11,8 +11,8 @@ export const ItemContainer = styled.div`
   background-color: white;
   transition: box-shadow 0.2s;
   box-shadow: 0 1px 0px rgba(0, 0, 0, 0.1);
-  width: 14.375rem;
-  max-width: 14.375rem;
+  width: 100%;
+  max-width: 100%;
 
   cursor: pointer;
 

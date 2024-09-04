@@ -1,6 +1,6 @@
 interface Items {
   id: string;
-  type: string;
+  type: 'paragraph' | 'image';
   title: string;
   content?: string;
 }

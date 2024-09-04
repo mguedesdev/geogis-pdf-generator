@@ -37,6 +37,15 @@ export const ItemsProvider: React.FC<{ children: React.ReactNode }> = ({
   ]);
   const [selectedItem, setSelectedItem] = useState<Item | null>(items[0]);
 
+  const blobToBase64 = (blob: Blob): Promise<string> => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onloadend = () => resolve(reader.result as string);
+      reader.onerror = reject;
+      reader.readAsDataURL(blob);
+    });
+  };
+
   useEffect(() => {
     if (selectedItem) {
       const updatedSelectedItem = items.find(
@@ -55,11 +64,17 @@ export const ItemsProvider: React.FC<{ children: React.ReactNode }> = ({
     setItems(newItems);
   };
 
-  const addItem = (item: Item) => {
+  const addItem = async (item: Item) => {
+    if (item.type === 'image' && item.content?.startsWith('blob:')) {
+      const blob = await fetch(item.content).then(r => r.blob());
+      item.content = await blobToBase64(blob);
+    }
     setItems(prevItems => [...prevItems, item]);
     if (item.type === 'paragraph') {
       setSelectedItem(item);
     }
+
+    console.log(items);
   };
 
   const selectItem = (id: string) => {

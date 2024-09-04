@@ -7,12 +7,12 @@ export const Container = styled.div`
   padding: 1rem;
   padding-right: 1rem;
   border-right: 2px solid ${({ theme }) => theme.colors.borderGray};
-  width: 300px;
-  min-width: 300px;
+  width: 250px;
+  min-width: 250px;
 
   @media (max-width: 1450px) {
-    width: 250px;
-    min-width: 250px;
+    width: 210px;
+    min-width: 210px;
   }
 
   @media (max-width: 768px) {
