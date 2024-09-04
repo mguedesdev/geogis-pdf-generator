@@ -39,6 +39,7 @@ const styles = StyleSheet.create({
     width: '100%',
     wordWrap: 'break-word',
     whiteSpace: 'pre-line',
+    fontFamily: 'Ubuntu',
   },
   image: {
     width: '100%',
