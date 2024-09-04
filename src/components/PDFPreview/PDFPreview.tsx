@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useItems } from '@/services/ItemsContext';
+import { useItems } from '@/contexts/ItemsContext';
 import {
   Document,
   Page,

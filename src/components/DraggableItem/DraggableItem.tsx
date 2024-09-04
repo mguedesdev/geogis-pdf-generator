@@ -4,7 +4,7 @@ import { CSS } from '@dnd-kit/utilities';
 import { MdDragHandle, MdEdit } from 'react-icons/md';
 import { FaTrash } from 'react-icons/fa';
 import Items from '@/@types/Items';
-import { useItems } from '@/services/ItemsContext';
+import { useItems } from '@/contexts/ItemsContext';
 import {
   ItemContainer,
   IconButton,

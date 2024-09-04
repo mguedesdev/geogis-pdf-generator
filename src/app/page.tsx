@@ -2,7 +2,7 @@
 
 import Header from '@/components/Header/Header';
 import SideMenu from '@/components/SideMenu/SideMenu';
-import { useItems } from '@/services/ItemsContext';
+import { useItems } from '@/contexts/ItemsContext';
 import PDFPreview from '@/components/PDFPreview/PDFPreview';
 import {
   ActivePagePDF,

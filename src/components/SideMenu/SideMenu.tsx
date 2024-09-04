@@ -1,5 +1,5 @@
 import React, { useRef } from 'react';
-import { useItems } from '@/services/ItemsContext';
+import { useItems } from '@/contexts/ItemsContext';
 import { ButtonsContainer, Container, Text, Title } from './styles';
 import DraggableList from '../DraggableList/DraggableList';
 import { Button } from '../Button/Button';

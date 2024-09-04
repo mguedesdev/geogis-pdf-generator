@@ -7,7 +7,7 @@ import { GlobalStyle } from '@/styles/global';
 import { theme } from '@/styles/theme';
 
 import StyledComponentsRegistry from '@/lib/registry';
-import { ItemsProvider } from '@/services/ItemsContext';
+import { ItemsProvider } from '@/contexts/ItemsContext';
 
 const Providers = ({ children }: PropsWithChildren) => {
   return (

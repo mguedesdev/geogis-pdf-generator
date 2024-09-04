@@ -6,7 +6,7 @@ import {
   verticalListSortingStrategy,
 } from '@dnd-kit/sortable';
 import { restrictToVerticalAxis } from '@dnd-kit/modifiers';
-import { useItems } from '@/services/ItemsContext';
+import { useItems } from '@/contexts/ItemsContext';
 import DraggableItem from '../DraggableItem/DraggableItem';
 import { ListContainer } from './styles';
 
