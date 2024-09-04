@@ -1,36 +1,105 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# 📄 GeoGIS PDF Generator
 
-## Getting Started
+Aplicação para a criação, edição e envio de documentos PDF, com suporte para adicionar parágrafos e imagens, e uma interface intuitiva para gerenciamento de conteúdo.
 
-First, run the development server:
+## 🚀 Tecnologias Utilizadas
+
+- **Next.js** 14.2.7 (versão App Router, sem pages)
+- **React** 18
+- **Styled-components** 6.1.8
+- **React Icons** 5.0.1
+- **@react-pdf/renderer** 3.4.4
+- **React Toastify** 10.0.5
+- **Dnd-kit** (para drag-and-drop)
+
+## ⚙️ Instalação
+
+Clone o repositório:
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+git clone git@github.com:mguedesdev/geogis-pdf-generator.git
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Acesse o diretório do projeto:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+cd geogis-pdf-generator
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+Instale as dependências:
 
-## Learn More
+```bash
+yarn install
+```
 
-To learn more about Next.js, take a look at the following resources:
+Execute o comando para rodar o ambiente de desenvolvimento:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```bash
+yarn dev
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+## 🌟 Funcionalidades
 
-## Deploy on Vercel
+- **Edição Dinâmica**: Adicione e edite parágrafos e imagens no documento.
+- **Visualização**: Visualize o PDF gerado diretamente no navegador sem precisar baixar.
+- **Download e Envio de PDF**: Baixe ou envie o PDF para um servidor via API.
+- **Drag-and-Drop**: Reorganize os itens do documento usando drag-and-drop.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## 🖥️ Como Usar
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+- **Adicionar Conteúdo**: Utilize o menu lateral para adicionar novos parágrafos ou imagens ao documento.
+- **Editar Parágrafo**: Clique diretamente sobre um parágrafo no editor para modificá-lo.
+- **Editar Imagem**: Para editar uma imagem, clique no ícone de lápis ao lado do item correspondente.
+- **Remover Conteúdo**: Clique no ícone de lixeira para excluir tanto parágrafos quanto imagens do documento.
+- **Visualizar PDF**: Pressione o botão _Preview_ para gerar e visualizar uma prévia do PDF no navegador.
+- **Download/Envio**: Clique em _Download_ para baixar o PDF ou em _Enviar PDF_ para enviá-lo via API.
+
+## 📂 Arquitetura
+
+### src/components
+
+- **Button.ts**: Botão reutilizável usado na aplicação. Exibe diferentes ícones dependendo da ação como _Download_, _Preview_ e _Enviar_ PDF.
+- **DraggableItem.tsx**: Componente que representa um item (parágrafo ou imagem) que pode ser arrastado e reordenado dentro da lista. Utiliza a biblioteca `dnd-kit`.
+
+- **DraggableList.tsx**: Gerencia a lista de itens arrastáveis, utilizando o `dnd-kit` para ordenar os parágrafos e imagens.
+
+- **Header.tsx**: Componente que exibe os botões principais (Preview, Download, Enviar PDF), além de gerenciar as interações com o estado de carregamento (_loading_) e exibir ícones dinâmicos.
+
+- **Layoutpdf.tsx**: Componente responsável pela estrutura visual do PDF. Define o layout de como os parágrafos e imagens são renderizados dentro do documento PDF.
+
+- **Providers.tsx**: Responsável por fornecer os contextos e configurações necessárias para que toda a aplicação funcione corretamente.
+
+- **SideMenu.tsx**: Menu lateral para adicionar novos parágrafos ou imagens ao documento. Permite que o usuário interaja diretamente com o conteúdo que deseja adicionar.
+
+### **src/@types**
+
+- **Items.ts**: Define os tipos para os itens utilizados no PDF (parágrafos e imagens)
+
+### **src/contexts**
+
+- **ItemsContext.tsx**: Gerencia o estado global dos itens (parágrafos e imagens) e a geração de PDFs no contexto da aplicação.
+
+### **src/hooks**
+
+- **useOrderContentPDF.ts**: Hook customizado para ordenar o conteúdo no PDF com base nos itens (parágrafos e imagens).
+
+### **src/services**
+
+- **api.ts**: Função de serviço responsável pelo envio do PDF via API. Atualmente, o código está configurado para simular o envio com um `setTimeout`, retornando uma resposta de sucesso após 500ms.
+
+**Observação**: No código, há uma simulação de uma requisição real de upload para uma API, comentada. Para utilizar a requisição real, basta descomentar o trecho indicado. O envio real seria feito usando `axios` e o método `POST` para a rota `/uploadPDF`, enviando o arquivo em formato `multipart/form-data`.
+
+### **src/styles**
+
+- **global.ts**: Estilos globais da aplicação, aplicados em todos os componentes.
+- **theme.ts**: Definição de tema customizado com Styled Components.
+
+### **src/utils**
+
+- **toastUtils.ts**: Funções utilitárias para exibir notificações de sucesso ou erro com React Toastify.
+
+## 📞 Contato
+
+Se você tiver dúvidas com o projeto, pode me chamar
+
+[LinkedIn](https://www.linkedin.com/in/mathheusg/) ou enviar um e-mail: mathheus.gr@gmail.com.

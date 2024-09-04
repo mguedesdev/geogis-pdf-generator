@@ -43,7 +43,6 @@ export const ItemsProvider: React.FC<{ children: React.ReactNode }> = ({
     null,
   );
 
-  // Função para gerar o PDF em Blob
   const generatePdfBlob = async () => {
     setLoading(true);
 
@@ -59,18 +58,16 @@ export const ItemsProvider: React.FC<{ children: React.ReactNode }> = ({
     setLoading(false);
   };
 
-  // Função para aplicar debounce
   const debouncePdfGeneration = () => {
     if (debounceTimeout) clearTimeout(debounceTimeout);
     const timeout = setTimeout(() => {
       generatePdfBlob();
-    }, 400); // 500ms de debounce
+    }, 400);
     setDebounceTimeout(timeout);
   };
 
-  // Chama a geração do PDF toda vez que os itens mudarem
   useEffect(() => {
-    debouncePdfGeneration(); // Aplicar debounce aqui
+    debouncePdfGeneration();
   }, [items]);
 
   const reorderItems = (newItems: Item[]) => {
@@ -93,7 +90,6 @@ export const ItemsProvider: React.FC<{ children: React.ReactNode }> = ({
     const updatedItems = items.filter(item => item.id !== id);
     setItems(updatedItems);
 
-    // Se o item deletado for o selecionado, atualiza o selectedItem
     if (selectedItem?.id === id) {
       if (updatedItems.length > 0) {
         setSelectedItem(updatedItems[0]);

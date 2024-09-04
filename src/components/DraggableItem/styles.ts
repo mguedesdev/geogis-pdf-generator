@@ -5,19 +5,21 @@ export const ItemContainer = styled.div`
   justify-content: space-between;
   align-items: center;
   padding: 0.625rem;
+
+  margin: 0 0.1rem;
   margin-bottom: 0.625rem;
   border: 0.0625rem solid #ddd;
   border-radius: 0.5rem;
   background-color: white;
   transition: box-shadow 0.2s;
-  box-shadow: 0 1px 0px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 2px rgba(0, 0, 0, 0.2);
   width: 100%;
   max-width: 100%;
 
   cursor: pointer;
 
   &:hover {
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
   }
 `;
 

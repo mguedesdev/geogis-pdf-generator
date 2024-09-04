@@ -18,7 +18,7 @@ interface DraggableItemProps {
 }
 
 const DraggableItem: React.FC<DraggableItemProps> = ({ item }) => {
-  const { selectItem, deleteItem, updateItemField } = useItems();
+  const { selectItem, deleteItem, updateItemField, selectedItem } = useItems();
   const { attributes, listeners, setNodeRef, transform, transition } =
     useSortable({ id: item.id });
   const fileInputRef = useRef<HTMLInputElement | null>(null);
@@ -27,6 +27,7 @@ const DraggableItem: React.FC<DraggableItemProps> = ({ item }) => {
     transform: CSS.Transform.toString(transform),
     transition,
     cursor: item.type === 'paragraph' ? 'pointer' : 'default',
+    border: selectedItem?.id === item.id ? '2px solid #038BBB' : 'none',
   };
 
   const handleImageEdit = () => {
@@ -51,6 +52,7 @@ const DraggableItem: React.FC<DraggableItemProps> = ({ item }) => {
 
   return (
     <ItemContainer
+      key={item.id}
       ref={setNodeRef}
       {...attributes}
       onClick={() => {
