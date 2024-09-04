@@ -5,7 +5,9 @@ import React, {
   useMemo,
   useEffect,
 } from 'react';
+import { Document, pdf } from '@react-pdf/renderer';
 import Item from '@/@types/Items';
+import Layoutpdf from '@/components/Layoutpdf/Layoutpdf';
 
 interface ItemsContextData {
   items: Item[];
@@ -14,14 +16,11 @@ interface ItemsContextData {
   selectItem: (id: string) => void;
   deleteItem: (id: string) => void;
   reorderItems: (newItems: Item[]) => void;
-  updateContent: (
-    id: string,
-    updatedContent?: string,
-    updatedTitle?: string,
-  ) => void;
+  updateItemField: (id: string, field: keyof Item, value: string) => void;
   nextParagraphNumber: () => number;
-  pdfBlob?: Blob | null;
-  setPdfBlob: (blob: Blob) => void;
+  loading: boolean;
+  pdfBlob: Blob | null;
+  generatePdfBlob: () => Promise<void>;
 }
 
 const ItemsContext = createContext<ItemsContextData | undefined>(undefined);
@@ -39,28 +38,39 @@ export const ItemsProvider: React.FC<{ children: React.ReactNode }> = ({
   ]);
   const [selectedItem, setSelectedItem] = useState<Item | null>(items[0]);
   const [pdfBlob, setPdfBlob] = useState<Blob | null>(null);
+  const [loading, setLoading] = useState(false);
+  const [debounceTimeout, setDebounceTimeout] = useState<NodeJS.Timeout | null>(
+    null,
+  );
 
-  const blobToBase64 = (blob: Blob): Promise<string> => {
-    return new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.onloadend = () => resolve(reader.result as string);
-      reader.onerror = reject;
-      reader.readAsDataURL(blob);
-    });
+  // Função para gerar o PDF em Blob
+  const generatePdfBlob = async () => {
+    setLoading(true);
+
+    const pdfDoc = (
+      <Document>
+        <Layoutpdf items={items} />
+      </Document>
+    );
+
+    const blob = await pdf(pdfDoc).toBlob();
+    setPdfBlob(blob);
+
+    setLoading(false);
   };
 
+  // Função para aplicar debounce
+  const debouncePdfGeneration = () => {
+    if (debounceTimeout) clearTimeout(debounceTimeout);
+    const timeout = setTimeout(() => {
+      generatePdfBlob();
+    }, 400); // 500ms de debounce
+    setDebounceTimeout(timeout);
+  };
+
+  // Chama a geração do PDF toda vez que os itens mudarem
   useEffect(() => {
-    if (selectedItem) {
-      const updatedSelectedItem = items.find(
-        item => item.id === selectedItem.id,
-      );
-      if (updatedSelectedItem) {
-        setSelectedItem(updatedSelectedItem);
-      }
-    }
-    if (items.length === 0) {
-      setSelectedItem(null);
-    }
+    debouncePdfGeneration(); // Aplicar debounce aqui
   }, [items]);
 
   const reorderItems = (newItems: Item[]) => {
@@ -68,16 +78,10 @@ export const ItemsProvider: React.FC<{ children: React.ReactNode }> = ({
   };
 
   const addItem = async (item: Item) => {
-    if (item.type === 'image' && item.content?.startsWith('blob:')) {
-      const blob = await fetch(item.content).then(r => r.blob());
-      item.content = await blobToBase64(blob);
-    }
     setItems(prevItems => [...prevItems, item]);
     if (item.type === 'paragraph') {
       setSelectedItem(item);
     }
-
-    console.log(items);
   };
 
   const selectItem = (id: string) => {
@@ -86,29 +90,39 @@ export const ItemsProvider: React.FC<{ children: React.ReactNode }> = ({
   };
 
   const deleteItem = (id: string) => {
-    setItems(items.filter(item => item.id !== id));
+    const updatedItems = items.filter(item => item.id !== id);
+    setItems(updatedItems);
+
+    // Se o item deletado for o selecionado, atualiza o selectedItem
     if (selectedItem?.id === id) {
-      setSelectedItem(null);
+      if (updatedItems.length > 0) {
+        setSelectedItem(updatedItems[0]);
+      } else {
+        setSelectedItem(null);
+      }
     }
   };
+
   const nextParagraphNumber = () => {
     const paragraphs = items.filter(item => item.type === 'paragraph');
     return paragraphs.length + 1;
   };
 
-  const updateContent = (
-    id: string,
-    updatedContent?: string,
-    updatedTitle?: string,
-  ) => {
+  const updateItemField = (id: string, field: keyof Item, value: string) => {
+    setSelectedItem(prevItem =>
+      prevItem?.id === id
+        ? {
+            ...prevItem,
+            [field]: value,
+          }
+        : prevItem,
+    );
     setItems(prevItems =>
       prevItems.map(item =>
         item.id === id
           ? {
               ...item,
-              content:
-                updatedContent !== undefined ? updatedContent : item.content,
-              title: updatedTitle !== undefined ? updatedTitle : item.title,
+              [field]: value,
             }
           : item,
       ),
@@ -123,12 +137,13 @@ export const ItemsProvider: React.FC<{ children: React.ReactNode }> = ({
       selectItem,
       deleteItem,
       reorderItems,
-      updateContent,
+      updateItemField,
       nextParagraphNumber,
+      loading,
       pdfBlob,
-      setPdfBlob,
+      generatePdfBlob,
     }),
-    [items, selectedItem],
+    [items, selectedItem, pdfBlob, loading],
   );
 
   return (
@@ -139,7 +154,7 @@ export const ItemsProvider: React.FC<{ children: React.ReactNode }> = ({
 export const useItems = (): ItemsContextData => {
   const context = useContext(ItemsContext);
   if (!context) {
-    throw new Error('useItems must be used within an ItemsProvider');
+    throw new Error('useItems só pode ser usado dentro de um ItemsProvider');
   }
   return context;
 };

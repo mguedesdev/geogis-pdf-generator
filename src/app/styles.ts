@@ -74,22 +74,3 @@ export const TextArea = styled.textarea`
   resize: none;
   height: 100%;
 `;
-
-export const PreviewContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-  width: 100%;
-  max-width: 800px;
-  padding: 1rem 0.5rem;
-  border-radius: 0.5rem;
-  border: 2px solid ${({ theme }) => theme.colors.borderGray};
-  box-shadow: 0 0 1rem rgba(0, 0, 0, 0.1);
-  height: 100%;
-`;
-
-export const ActivePagePDF = styled.div`
-  display: flex;
-  justify-content: center;
-  height: 100%;
-`;

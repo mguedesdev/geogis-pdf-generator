@@ -18,7 +18,7 @@ interface DraggableItemProps {
 }
 
 const DraggableItem: React.FC<DraggableItemProps> = ({ item }) => {
-  const { selectItem, deleteItem, updateContent } = useItems();
+  const { selectItem, deleteItem, updateItemField } = useItems();
   const { attributes, listeners, setNodeRef, transform, transition } =
     useSortable({ id: item.id });
   const fileInputRef = useRef<HTMLInputElement | null>(null);
@@ -39,8 +39,14 @@ const DraggableItem: React.FC<DraggableItemProps> = ({ item }) => {
     if (event.target.files && event.target.files[0]) {
       const fileUrl = URL.createObjectURL(event.target.files[0]);
       const fileName = event.target.files[0].name;
-      updateContent(item.id, fileUrl, fileName);
+      updateItemField(item.id, 'content', fileUrl);
+      updateItemField(item.id, 'title', fileName);
     }
+  };
+
+  const handleDelete = (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.stopPropagation();
+    deleteItem(item.id);
   };
 
   return (
@@ -73,7 +79,7 @@ const DraggableItem: React.FC<DraggableItemProps> = ({ item }) => {
             />
           </>
         )}
-        <IconButton onClick={() => deleteItem(item.id)}>
+        <IconButton onClick={handleDelete}>
           <FaTrash size={16} />
         </IconButton>
       </ButtonsContainer>

@@ -3,32 +3,38 @@
 import Header from '@/components/Header/Header';
 import SideMenu from '@/components/SideMenu/SideMenu';
 import { useItems } from '@/contexts/ItemsContext';
-import PDFPreview from '@/components/PDFPreview/PDFPreview';
+import { useEffect } from 'react';
 import {
-  ActivePagePDF,
   Container,
   EditorContainer,
   EmptyEditor,
   Main,
-  PreviewContainer,
   TextArea,
   TitleInput,
 } from './styles';
 
 const Home = () => {
-  const { updateContent, selectedItem } = useItems();
+  const { updateItemField, selectedItem } = useItems();
 
   const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (selectedItem) {
-      updateContent(selectedItem.id, selectedItem.content, e.target.value);
+      updateItemField(selectedItem.id, 'title', e.target.value);
     }
   };
 
   const handleContentChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     if (selectedItem) {
-      updateContent(selectedItem.id, e.target.value, selectedItem.title);
+      updateItemField(selectedItem.id, 'content', e.target.value);
     }
   };
+
+  useEffect(() => {
+    if (selectedItem) {
+      document.title = `Editando: ${selectedItem.title}`;
+    } else {
+      document.title = 'Editor de PDF';
+    }
+  }, [selectedItem]);
 
   return (
     <Container>
@@ -49,9 +55,6 @@ const Home = () => {
         ) : (
           <EmptyEditor>Adicione um parágrafo para editar</EmptyEditor>
         )}
-        <PreviewContainer>
-          <PDFPreview />
-        </PreviewContainer>
       </Main>
     </Container>
   );
